@@ -3,96 +3,72 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KofCity Platform | MVP Demo</title>
+  <title>KofCity | Food, School Lunch & Delivery in Koforidua</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --green: #0f766e;
-      --green-dark: #064e3b;
-      --green-light: #ecfdf5;
-      --yellow: #facc15;
-      --orange: #f97316;
-      --red: #dc2626;
-      --blue: #2563eb;
-      --gray: #52616b;
-      --dark: #111827;
-      --border: #e5e7eb;
-      --bg: #fffaf3;
-      --white: #ffffff;
-      --shadow: 0 14px 35px rgba(15, 118, 110, 0.12);
-    }
-    body { font-family: Arial, sans-serif; color: #1f2933; background: var(--bg); line-height: 1.55; }
-    header { position: sticky; top: 0; z-index: 50; background: rgba(15, 118, 110, 0.97); color: white; padding: 16px 6%; box-shadow: 0 5px 22px rgba(0,0,0,.15); }
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, sans-serif; background: #fffaf3; color: #1f2933; line-height: 1.6; }
+    :root { --green:#0f766e; --dark:#111827; --yellow:#facc15; --light:#ecfdf5; --orange:#f97316; --gray:#52616b; --border:#e5e7eb; }
+    header { position: sticky; top: 0; z-index: 100; background: rgba(15,118,110,.97); color: white; padding: 16px 7%; box-shadow: 0 6px 20px rgba(0,0,0,.16); }
     nav { display: flex; justify-content: space-between; align-items: center; gap: 18px; flex-wrap: wrap; }
     .logo { font-size: 30px; font-weight: 900; letter-spacing: -1px; }
     .logo span { color: var(--yellow); }
-    .nav-links { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-    .nav-links button, .nav-links a { background: transparent; border: 0; color: white; text-decoration: none; font-weight: 800; cursor: pointer; padding: 8px 10px; border-radius: 999px; }
-    .nav-links button:hover, .nav-links a:hover { background: rgba(255,255,255,.16); }
-    .hero { padding: 56px 6%; display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; background: radial-gradient(circle at top right, #facc15 0, transparent 25%), linear-gradient(135deg, #064e3b, #0f766e 50%, #22c55e); color: white; }
-    .hero h1 { font-size: clamp(36px, 6vw, 64px); line-height: 1.04; margin-bottom: 18px; }
-    .hero p { font-size: 19px; max-width: 760px; opacity: .95; margin-bottom: 24px; }
-    .pill { display: inline-block; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25); padding: 8px 14px; border-radius: 999px; font-weight: 900; margin-bottom: 18px; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 12px 18px; font-weight: 900; cursor: pointer; text-decoration: none; transition: .2s ease; }
-    .btn:hover { transform: translateY(-1px); }
+    nav a { color: white; text-decoration: none; font-weight: 800; margin-left: 16px; }
+    .hero { background: radial-gradient(circle at top right, #facc15 0, transparent 22%), linear-gradient(135deg, #064e3b, #0f766e 55%, #22c55e); color: white; padding: 90px 7%; display: grid; grid-template-columns: 1.1fr .9fr; gap: 42px; align-items: center; }
+    .eyebrow { display: inline-block; padding: 8px 14px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 999px; font-weight: 900; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(40px, 6vw, 76px); line-height: 1.02; margin-bottom: 20px; }
+    .hero p { font-size: 20px; max-width: 760px; opacity: .96; margin-bottom: 28px; }
+    .buttons { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn { display: inline-block; padding: 14px 22px; border-radius: 999px; font-weight: 900; text-decoration: none; }
     .btn-primary { background: var(--yellow); color: #1f2933; }
     .btn-secondary { background: white; color: var(--green); }
-    .btn-green { background: var(--green); color: white; }
-    .btn-dark { background: var(--dark); color: white; }
-    .btn-light { background: #f3f4f6; color: #111827; }
-    .btn-red { background: var(--red); color: white; }
-    .btn-blue { background: var(--blue); color: white; }
-    .hero-card, .card, .panel { background: white; color: #1f2933; border: 1px solid var(--border); border-radius: 24px; box-shadow: var(--shadow); }
-    .hero-card { padding: 24px; background: rgba(255,255,255,.17); color: white; border: 1px solid rgba(255,255,255,.35); backdrop-filter: blur(8px); }
-    .hero-card h3 { font-size: 24px; margin-bottom: 16px; }
-    .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .stat { background: white; color: #1f2933; padding: 16px; border-radius: 18px; font-weight: 900; }
-    .stat small { display: block; color: var(--gray); font-weight: 700; margin-top: 4px; }
-    section { padding: 54px 6%; }
-    .section-title { text-align: center; max-width: 850px; margin: 0 auto 32px; }
-    .section-title h2 { color: var(--green); font-size: clamp(28px, 4vw, 44px); line-height: 1.12; margin-bottom: 10px; }
-    .section-title p { color: var(--gray); font-size: 17px; }
-    .portal-tabs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 26px; }
-    .tab { border: 1px solid var(--border); background: white; border-radius: 999px; padding: 11px 15px; font-weight: 900; cursor: pointer; }
-    .tab.active { background: var(--green); color: white; border-color: var(--green); }
-    .app-shell { display: grid; grid-template-columns: 320px 1fr; gap: 22px; align-items: start; }
-    .sidebar { padding: 20px; position: sticky; top: 88px; }
-    .main-panel { padding: 24px; min-height: 520px; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .card { padding: 18px; }
-    .card h3, .panel h3 { color: var(--green); margin-bottom: 8px; }
-    .muted { color: var(--gray); }
-    .badge { display: inline-block; padding: 5px 9px; border-radius: 999px; background: var(--green-light); color: var(--green); font-weight: 900; font-size: 12px; }
-    .badge.orange { background: #fff7ed; color: var(--orange); }
-    .badge.blue { background: #eff6ff; color: var(--blue); }
-    .badge.red { background: #fef2f2; color: var(--red); }
-    label { display: block; margin: 12px 0 6px; font-weight: 900; color: #374151; }
-    input, select, textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 13px; padding: 12px; font: inherit; background: white; }
-    textarea { min-height: 84px; resize: vertical; }
-    .cart-item, .order-item, .list-item { border: 1px solid var(--border); background: #fff; border-radius: 16px; padding: 14px; margin-bottom: 10px; }
-    .row { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .total { font-size: 22px; font-weight: 900; color: var(--green); }
-    .empty { padding: 26px; border: 2px dashed #d1d5db; border-radius: 18px; text-align: center; color: var(--gray); background: #fafafa; }
-    table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 16px; background: white; }
-    th, td { padding: 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
-    th { background: #111827; color: white; }
-    .notice { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 14px; border-radius: 16px; margin-bottom: 16px; }
-    .success { background: #ecfdf5; border: 1px solid #bbf7d0; color: #166534; padding: 14px; border-radius: 16px; margin-bottom: 16px; }
-    footer { text-align: center; padding: 30px; background: #111827; color: white; }
-    @media (max-width: 1050px) { .hero, .app-shell, .grid, .grid-2 { grid-template-columns: 1fr; } .sidebar { position: static; } }
-    @media (max-width: 620px) { section, .hero { padding-left: 4%; padding-right: 4%; } .stat-grid { grid-template-columns: 1fr; } .main-panel, .sidebar { padding: 16px; } th, td { font-size: 13px; padding: 8px; } }
+    .hero-card { background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.35); border-radius: 30px; padding: 28px; box-shadow: 0 24px 60px rgba(0,0,0,.18); backdrop-filter: blur(8px); }
+    .hero-card h3 { font-size: 26px; margin-bottom: 18px; }
+    .status { background: white; color: #1f2933; padding: 15px 16px; border-radius: 16px; margin-bottom: 12px; font-weight: 800; }
+    section { padding: 75px 7%; }
+    .section-title { text-align: center; max-width: 850px; margin: 0 auto 44px; }
+    .section-title h2 { color: var(--green); font-size: clamp(30px, 4vw, 48px); line-height: 1.12; margin-bottom: 14px; }
+    .section-title p { color: var(--gray); font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    .card { background: white; border: 1px solid var(--border); border-radius: 26px; padding: 28px; box-shadow: 0 12px 32px rgba(15,118,110,.10); }
+    .card h3 { color: var(--green); font-size: 24px; margin-bottom: 10px; }
+    .card p, .card li { color: var(--gray); }
+    .icon { font-size: 40px; margin-bottom: 14px; }
+    .light { background: var(--light); }
+    .orange { background: #fff7ed; }
+    .dark { background: var(--dark); color: white; }
+    .dark h2, .dark h3 { color: var(--yellow); }
+    .dark p, .dark li { color: #e5e7eb; }
+    .steps { max-width: 950px; margin: auto; display: grid; gap: 16px; }
+    .step { background: white; border-radius: 22px; padding: 22px; display: grid; grid-template-columns: 56px 1fr; gap: 18px; border: 1px solid var(--border); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+    .num { width: 48px; height: 48px; border-radius: 50%; background: var(--green); color: white; display: grid; place-items: center; font-weight: 900; }
+    .service { min-height: 260px; color: white; border-radius: 30px; padding: 34px; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: 0 20px 45px rgba(0,0,0,.16); }
+    .service h3 { color: white; font-size: 32px; }
+    .food { background: linear-gradient(135deg, rgba(15,118,110,.95), rgba(34,197,94,.8)), url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80') center/cover; }
+    .goods { background: linear-gradient(135deg, rgba(17,24,39,.95), rgba(249,115,22,.78)), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80') center/cover; }
+    .list { margin-left: 18px; margin-top: 10px; }
+    .cta { text-align: center; background: linear-gradient(135deg, #0f766e, #16a34a); color: white; border-radius: 34px; margin: 40px 7% 75px; padding: 65px 7%; }
+    .cta h2 { font-size: clamp(30px, 4vw, 52px); margin-bottom: 16px; }
+    .cta p { max-width: 760px; margin: 0 auto 28px; font-size: 18px; }
+    form { display: grid; gap: 12px; max-width: 760px; margin: auto; }
+    input, select, textarea { width: 100%; border: 1px solid #d1d5db; border-radius: 14px; padding: 14px; font: inherit; }
+    textarea { min-height: 120px; }
+    footer { background: var(--dark); color: white; text-align: center; padding: 30px; }
+    @media (max-width: 950px) { .hero, .grid, .grid-2 { grid-template-columns: 1fr; } nav a { margin-left: 0; margin-right: 12px; } }
+    @media (max-width: 560px) { section, .hero { padding-left: 5%; padding-right: 5%; } .step { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <header>
     <nav>
       <div class="logo">Kof<span>City</span></div>
-      <div class="nav-links">
-        <a href="#platform">Platform</a>
+      <div>
+        <a href="#services">Services</a>
+        <a href="#users">Who It Serves</a>
         <a href="#how">How It Works</a>
-        <button onclick="resetDemo()">Reset Demo</button>
+        <a href="#pilot">Pilot</a>
+        <a href="#contact">Contact</a>
       </div>
     </nav>
   </header>
@@ -100,457 +76,123 @@
   <main>
     <section class="hero">
       <div>
-        <span class="pill">Usable MVP Demo · Koforidua, Ghana</span>
-        <h1>One platform for food orders, school lunches, vendors, riders, and admins.</h1>
-        <p>This working browser demo lets you place orders, receive vendor orders, assign riders, update deliveries, confirm school lunches, and manage payments using MTN MoMo, card, or cash.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="#platform">Open Platform</a>
-          <button class="btn btn-secondary" onclick="seedDemo()">Load Sample Data</button>
+        <span class="eyebrow">Koforidua · Eastern Region · Ghana</span>
+        <h1>Food delivery, school lunches, and local delivery made simple.</h1>
+        <p>KofCity is a Koforidua-based delivery platform connecting families, schools, food vendors, riders, and local businesses through one easy-to-use digital service.</p>
+        <div class="buttons">
+          <a class="btn btn-primary" href="#contact">Join the Pilot</a>
+          <a class="btn btn-secondary" href="#services">Explore Services</a>
         </div>
       </div>
       <div class="hero-card">
-        <h3>Live Demo Summary</h3>
-        <div class="stat-grid">
-          <div class="stat" id="statOrders">0<small>Total orders</small></div>
-          <div class="stat" id="statRevenue">GHS 0<small>Total revenue</small></div>
-          <div class="stat" id="statActive">0<small>Active deliveries</small></div>
-          <div class="stat" id="statDelivered">0<small>Delivered</small></div>
+        <h3>What KofCity Supports</h3>
+        <div class="status">🍲 Home food delivery</div>
+        <div class="status">🏫 School lunch delivery</div>
+        <div class="status">📦 Merchandise and general delivery</div>
+        <div class="status">💳 MTN MoMo, card, and cash payments</div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="section-title">
+        <h2>Built around two core service lines</h2>
+        <p>KofCity starts with practical services that people in Koforidua can use every day.</p>
+      </div>
+      <div class="grid-2">
+        <div class="service food">
+          <h3>Food & School Lunch Delivery</h3>
+          <p>Meals from local vendors delivered to homes, schools, students, teachers, and parents.</p>
+        </div>
+        <div class="service goods">
+          <h3>Merchandise & General Delivery</h3>
+          <p>Goods purchased locally or sourced from Accra and surrounding areas delivered to customers.</p>
         </div>
       </div>
     </section>
 
-    <section id="platform">
+    <section class="light" id="users">
       <div class="section-title">
-        <h2>KofCity working platform demo</h2>
-        <p>Select a role below. All portals share the same demo data, so actions in one portal appear in the others.</p>
+        <h2>Who KofCity serves</h2>
+        <p>Each group has a simple role in the platform.</p>
       </div>
-
-      <div class="portal-tabs">
-        <button class="tab active" onclick="setPortal('customer')">👨‍👩‍👧 Parent / Customer</button>
-        <button class="tab" onclick="setPortal('school')">🏫 School</button>
-        <button class="tab" onclick="setPortal('vendor')">🍲 Vendor</button>
-        <button class="tab" onclick="setPortal('rider')">🏍️ Rider</button>
-        <button class="tab" onclick="setPortal('admin')">📊 Admin</button>
-      </div>
-
-      <div class="app-shell">
-        <aside class="panel sidebar" id="sidebar"></aside>
-        <section class="panel main-panel" id="portalContent"></section>
+      <div class="grid">
+        <div class="card"><div class="icon">👨‍👩‍👧</div><h3>Parents & Customers</h3><p>Order food for home delivery or school lunch delivery and track order status.</p></div>
+        <div class="card"><div class="icon">🏫</div><h3>Schools</h3><p>Receive organized lunch deliveries and confirm when batches arrive.</p></div>
+        <div class="card"><div class="icon">🍛</div><h3>Food Vendors</h3><p>Restaurants, chop bars, caterers, and home cooks can receive orders and grow sales.</p></div>
+        <div class="card"><div class="icon">🏍️</div><h3>Riders</h3><p>Delivery agents receive pickup and drop-off jobs across assigned zones.</p></div>
+        <div class="card"><div class="icon">📦</div><h3>Local Businesses</h3><p>Businesses can support delivery of goods and customer-requested items.</p></div>
+        <div class="card"><div class="icon">📊</div><h3>Operations Team</h3><p>The KofCity operations team oversees platform activity, manages users and delivery operations, coordinates vendors and riders, monitors orders and payments, and helps ensure smooth day-to-day service across the platform.
+</p></div>
       </div>
     </section>
 
     <section id="how">
       <div class="section-title">
-        <h2>How the demo works</h2>
-        <p>Use it like a lightweight prototype before connecting a real backend, Paystack, SMS, and user authentication.</p>
+        <h2>How it works</h2>
+        <p>A simple delivery flow designed for speed, reliability, and low-end smartphones.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div><h3>Customer places an order</h3><p>Parents, households, or schools choose meals or delivery services and select MTN MoMo, card, or cash on delivery.</p></div></div>
+        <div class="step"><div class="num">2</div><div><h3>Vendor prepares the order</h3><p>The vendor receives the request, accepts it, prepares the food or goods, and marks it ready for pickup.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Rider delivers</h3><p>A rider accepts the delivery, picks up the order, and updates the delivery status along the way.</p></div></div>
+        <div class="step"><div class="num">4</div><div><h3>Delivery is confirmed</h3><p>The customer or school confirms receipt, and the platform tracks payment and payouts.</p></div></div>
+      </div>
+    </section>
+
+    <section class="orange" id="payments">
+      <div class="section-title">
+        <h2>Simple payment options</h2>
+        <p>KofCity supports the payment methods customers already use.</p>
       </div>
       <div class="grid">
-        <div class="card"><h3>1. Order</h3><p>Parents or customers choose meals, select a payment method, and submit an order for home or school delivery.</p></div>
-        <div class="card"><h3>2. Prepare</h3><p>Vendors receive the order, accept it, and mark it as preparing or ready for pickup.</p></div>
-        <div class="card"><h3>3. Deliver</h3><p>Admins assign riders, riders accept delivery, update status, and mark orders delivered.</p></div>
+        <div class="card"><h3>MTN MoMo</h3><p>Primary digital payment option for launch in Koforidua.</p></div>
+        <div class="card"><h3>Card Payments</h3><p>Debit and credit card payments through a Ghana-supported payment gateway.</p></div>
+        <div class="card"><h3>Cash on Delivery</h3><p>Customers can pay when the rider delivers the order.</p></div>
       </div>
+    </section>
+
+    <section class="dark" id="pilot">
+      <div class="section-title">
+        <h2>Pilot launch plan</h2>
+        <p>The first launch will focus on Koforidua Central, then expand to nearby communities.</p>
+      </div>
+      <div class="grid">
+        <div class="card dark"><h3>Launch Area</h3><p>Koforidua Central, with planned expansion to Effiduase, Jumapo, Nsawam, and other Eastern Region towns.</p></div>
+        <div class="card dark"><h3>Initial Partners</h3><p>Start with 2–3 schools, 3–5 food vendors, and 3–5 riders to prove the model.</p></div>
+        <div class="card dark"><h3>Technology Direction</h3><p>Begin with a mobile-friendly web app, then expand into Android and iOS apps in Phase 2.</p></div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="section-title">
+        <h2>Join the KofCity pilot</h2>
+        <p>Schools, vendors, riders, and customers can register interest before launch.</p>
+      </div>
+      <form action="mailto:hello@kofcity.com" method="post" enctype="text/plain">
+        <input name="name" placeholder="Full name or organization name" required>
+        <input name="phone" placeholder="Phone number" required>
+        <select name="interest" required>
+          <option value="">I am interested as...</option>
+          <option>Parent / Customer</option>
+          <option>School</option>
+          <option>Food Vendor</option>
+          <option>Delivery Agent / Rider</option>
+          <option>Business / Partner</option>
+        </select>
+        <textarea name="message" placeholder="Tell us briefly how you would like to participate"></textarea>
+        <button class="btn btn-primary" type="submit">Submit Interest</button>
+      </form>
+    </section>
+
+    <section class="cta">
+      <h2>A local delivery platform built for Koforidua.</h2>
+      <p>KofCity helps families, schools, vendors, riders, and local businesses move meals and goods faster across the community.</p>
+      <a class="btn btn-primary" href="#contact">Get Started</a>
     </section>
   </main>
 
   <footer>
-    <p>© 2026 KofCity · MVP Demo Platform · Data is stored in this browser only</p>
+    <p>© 2026 KofCity · Koforidua, Ghana · Food, School Lunch & Delivery Platform</p>
   </footer>
-
-  <script>
-    const STORE_KEY = 'kofcity_demo_state_v1';
-    let activePortal = 'customer';
-
-    const defaultState = {
-      vendors: [
-        { id: 'v1', name: 'Auntie Ama Local Kitchen', type: 'Chop Bar', zone: 'Koforidua Central', approved: true },
-        { id: 'v2', name: 'Eastern Taste Catering', type: 'Caterer', zone: 'Effiduase', approved: true },
-        { id: 'v3', name: 'KofCity Snacks & Rice', type: 'Restaurant', zone: 'Koforidua Central', approved: true }
-      ],
-      menu: [
-        { id: 'm1', vendorId: 'v1', name: 'Jollof Rice with Chicken', price: 35, category: 'Lunch', available: true },
-        { id: 'm2', vendorId: 'v1', name: 'Banku with Tilapia', price: 45, category: 'Local Meal', available: true },
-        { id: 'm3', vendorId: 'v2', name: 'School Lunch Pack', price: 22, category: 'School Lunch', available: true },
-        { id: 'm4', vendorId: 'v2', name: 'Waakye Pack', price: 30, category: 'Lunch', available: true },
-        { id: 'm5', vendorId: 'v3', name: 'Fried Rice with Chicken', price: 38, category: 'Lunch', available: true },
-        { id: 'm6', vendorId: 'v3', name: 'Meat Pie & Drink Combo', price: 18, category: 'Snack', available: true }
-      ],
-      riders: [
-        { id: 'r1', name: 'Kwame Mensah', mode: 'Motorbike', zone: 'Koforidua Central', online: true },
-        { id: 'r2', name: 'Abena Ofori', mode: 'Motorbike', zone: 'Effiduase', online: true },
-        { id: 'r3', name: 'Kojo Boateng', mode: 'Bicycle', zone: 'Koforidua Central', online: false }
-      ],
-      schools: [
-        { id: 's1', name: 'Koforidua Central Basic School', contact: 'Headmaster', zone: 'Koforidua Central' },
-        { id: 's2', name: 'Effiduase Model School', contact: 'Administrator', zone: 'Effiduase' }
-      ],
-      customers: [
-        { id: 'c1', name: 'Parent / Customer Demo', phone: '0240000000', address: 'Koforidua Central' }
-      ],
-      orders: [],
-      cart: []
-    };
-
-    function getState() {
-      const saved = localStorage.getItem(STORE_KEY);
-      if (!saved) return structuredClone(defaultState);
-      try { return JSON.parse(saved); } catch { return structuredClone(defaultState); }
-    }
-
-    function saveState(state) {
-      localStorage.setItem(STORE_KEY, JSON.stringify(state));
-      updateStats();
-    }
-
-    function money(amount) { return 'GHS ' + Number(amount || 0).toFixed(2); }
-    function vendorName(id) { return getState().vendors.find(v => v.id === id)?.name || 'Unknown vendor'; }
-    function riderName(id) { return getState().riders.find(r => r.id === id)?.name || 'Unassigned'; }
-    function schoolName(id) { return getState().schools.find(s => s.id === id)?.name || 'N/A'; }
-    function itemName(id) { return getState().menu.find(m => m.id === id)?.name || 'Item'; }
-
-    function statusBadge(status) {
-      const color = status === 'Delivered' ? '' : status === 'Cancelled' ? 'red' : status === 'Out for delivery' ? 'blue' : 'orange';
-      return `<span class="badge ${color}">${status}</span>`;
-    }
-
-    function paymentBadge(method, status) {
-      const label = method === 'momo' ? 'MTN MoMo' : method === 'card' ? 'Card' : 'Cash';
-      const color = method === 'cash' ? 'orange' : 'blue';
-      return `<span class="badge ${color}">${label} · ${status}</span>`;
-    }
-
-    function setPortal(portal) {
-      activePortal = portal;
-      document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
-      const labels = { customer: 'Parent / Customer', school: 'School', vendor: 'Vendor', rider: 'Rider', admin: 'Admin' };
-      document.querySelectorAll('.tab').forEach(btn => { if (btn.textContent.includes(labels[portal])) btn.classList.add('active'); });
-      render();
-      location.hash = 'platform';
-    }
-
-    function render() {
-      if (activePortal === 'customer') renderCustomer();
-      if (activePortal === 'school') renderSchool();
-      if (activePortal === 'vendor') renderVendor();
-      if (activePortal === 'rider') renderRider();
-      if (activePortal === 'admin') renderAdmin();
-      updateStats();
-    }
-
-    function renderCustomer() {
-      const state = getState();
-      const cartTotal = state.cart.reduce((sum, c) => sum + c.price * c.qty, 0);
-      document.getElementById('sidebar').innerHTML = `
-        <h3>Parent / Customer Portal</h3>
-        <p class="muted">Order food for home delivery or send lunch to a registered school.</p>
-        <hr style="margin:16px 0;border:0;border-top:1px solid #e5e7eb">
-        <h3>Cart</h3>
-        <div id="cartBox">${renderCart(state)}</div>
-        <div class="row"><span>Total</span><span class="total">${money(cartTotal)}</span></div>
-        <label>Delivery type</label>
-        <select id="deliveryType" onchange="toggleSchoolSelect()">
-          <option value="home">Home delivery</option>
-          <option value="school">School lunch delivery</option>
-        </select>
-        <div id="schoolWrap" style="display:none">
-          <label>Select school</label>
-          <select id="schoolId">${state.schools.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}</select>
-        </div>
-        <label>Delivery address</label>
-        <input id="deliveryAddress" value="Koforidua Central" />
-        <label>Payment method</label>
-        <select id="paymentMethod">
-          <option value="momo">MTN MoMo</option>
-          <option value="card">Card</option>
-          <option value="cash">Cash on delivery</option>
-        </select>
-        <button class="btn btn-green" style="width:100%;margin-top:14px" onclick="placeOrder()">Place Order</button>
-      `;
-      document.getElementById('portalContent').innerHTML = `
-        <h3>Available Food Vendors</h3>
-        <p class="muted">Choose items from approved vendors. Orders will appear immediately in the vendor and admin portals.</p><br>
-        <div class="grid">${state.menu.filter(m => m.available).map(item => {
-          const vendor = state.vendors.find(v => v.id === item.vendorId);
-          return `<div class="card">
-            <span class="badge">${item.category}</span>
-            <h3>${item.name}</h3>
-            <p class="muted">${vendor.name} · ${vendor.zone}</p>
-            <p class="total">${money(item.price)}</p>
-            <button class="btn btn-primary" onclick="addToCart('${item.id}')">Add to cart</button>
-          </div>`;
-        }).join('')}</div>
-        <br><h3>Your Order History</h3>
-        ${renderOrdersTable(state.orders.filter(o => o.customerId === 'c1'))}
-      `;
-    }
-
-    function renderCart(state) {
-      if (!state.cart.length) return '<div class="empty">Your cart is empty.</div>';
-      return state.cart.map(c => `<div class="cart-item"><div class="row"><strong>${c.name}</strong><button class="btn btn-light" onclick="removeFromCart('${c.itemId}')">Remove</button></div><p>${c.qty} × ${money(c.price)}</p></div>`).join('');
-    }
-
-    function addToCart(itemId) {
-      const state = getState();
-      const item = state.menu.find(m => m.id === itemId);
-      const existing = state.cart.find(c => c.itemId === itemId);
-      if (existing) existing.qty += 1;
-      else state.cart.push({ itemId, vendorId: item.vendorId, name: item.name, price: item.price, qty: 1 });
-      saveState(state); renderCustomer();
-    }
-
-    function removeFromCart(itemId) {
-      const state = getState();
-      state.cart = state.cart.filter(c => c.itemId !== itemId);
-      saveState(state); renderCustomer();
-    }
-
-    function toggleSchoolSelect() {
-      document.getElementById('schoolWrap').style.display = document.getElementById('deliveryType').value === 'school' ? 'block' : 'none';
-    }
-
-    function placeOrder() {
-      const state = getState();
-      if (!state.cart.length) { alert('Please add at least one item to the cart.'); return; }
-      const deliveryType = document.getElementById('deliveryType').value;
-      const paymentMethod = document.getElementById('paymentMethod').value;
-      const address = document.getElementById('deliveryAddress').value || 'Koforidua Central';
-      const schoolId = deliveryType === 'school' ? document.getElementById('schoolId').value : null;
-      const groupedByVendor = {};
-      state.cart.forEach(c => { (groupedByVendor[c.vendorId] ||= []).push(c); });
-      Object.entries(groupedByVendor).forEach(([vendorId, items]) => {
-        const total = items.reduce((sum, c) => sum + c.price * c.qty, 0);
-        state.orders.unshift({
-          id: 'ORD-' + Date.now() + '-' + Math.floor(Math.random()*999),
-          customerId: 'c1', vendorId, riderId: null, schoolId,
-          deliveryType, deliveryAddress: address, items,
-          total, paymentMethod,
-          paymentStatus: paymentMethod === 'cash' ? 'Collect on delivery' : 'Paid demo',
-          status: 'Received', createdAt: new Date().toLocaleString(), notes: ''
-        });
-      });
-      state.cart = [];
-      saveState(state);
-      alert('Order placed successfully. Check Vendor, Admin, Rider, and School portals.');
-      renderCustomer();
-    }
-
-    function renderSchool() {
-      const state = getState();
-      document.getElementById('sidebar').innerHTML = `
-        <h3>School Portal</h3>
-        <p class="muted">Schools can see lunch deliveries, track statuses, and confirm receipt.</p>
-        <label>School</label>
-        <select id="activeSchool" onchange="renderSchool()">${state.schools.map(s => `<option value="${s.id}" ${localStorage.activeSchool === s.id ? 'selected' : ''}>${s.name}</option>`).join('')}</select>
-        <button class="btn btn-green" style="width:100%;margin-top:14px" onclick="saveSchoolChoice()">View School Orders</button>
-      `;
-      const schoolId = localStorage.activeSchool || state.schools[0].id;
-      const orders = state.orders.filter(o => o.schoolId === schoolId);
-      document.getElementById('portalContent').innerHTML = `
-        <h3>Lunch Deliveries for ${schoolName(schoolId)}</h3>
-        <p class="muted">Confirm delivered orders when lunch arrives at the school.</p><br>
-        ${orders.length ? orders.map(o => `<div class="order-item">
-          <div class="row"><strong>${o.id}</strong>${statusBadge(o.status)}</div>
-          <p>${o.items.map(i => `${i.qty} × ${i.name}`).join(', ')}</p>
-          <p class="muted">Vendor: ${vendorName(o.vendorId)} · Rider: ${riderName(o.riderId)} · ${paymentBadge(o.paymentMethod, o.paymentStatus)}</p>
-          <div class="actions">${o.status !== 'Delivered' ? `<button class="btn btn-green" onclick="updateOrderStatus('${o.id}','Delivered')">Confirm Batch Delivery</button>` : '<span class="badge">Confirmed received</span>'}</div>
-        </div>`).join('') : '<div class="empty">No school lunch deliveries yet. Place a school order from the Parent / Customer portal.</div>'}
-      `;
-    }
-
-    function saveSchoolChoice() {
-      localStorage.activeSchool = document.getElementById('activeSchool').value;
-      renderSchool();
-    }
-
-    function renderVendor() {
-      const state = getState();
-      const selectedVendor = localStorage.activeVendor || state.vendors[0].id;
-      document.getElementById('sidebar').innerHTML = `
-        <h3>Vendor Portal</h3>
-        <p class="muted">Vendors receive orders, accept/reject them, and mark meals ready for pickup.</p>
-        <label>Vendor</label>
-        <select id="activeVendor">${state.vendors.map(v => `<option value="${v.id}" ${selectedVendor === v.id ? 'selected' : ''}>${v.name}</option>`).join('')}</select>
-        <button class="btn btn-green" style="width:100%;margin-top:14px" onclick="saveVendorChoice()">View Vendor Board</button>
-      `;
-      const orders = state.orders.filter(o => o.vendorId === selectedVendor);
-      document.getElementById('portalContent').innerHTML = `
-        <h3>Vendor Order Board</h3>
-        <p class="muted">Orders for ${vendorName(selectedVendor)}.</p><br>
-        ${orders.length ? orders.map(o => `<div class="order-item">
-          <div class="row"><strong>${o.id}</strong>${statusBadge(o.status)}</div>
-          <p>${o.items.map(i => `${i.qty} × ${i.name}`).join(', ')}</p>
-          <p class="muted">Delivery: ${o.deliveryType === 'school' ? schoolName(o.schoolId) : o.deliveryAddress} · Total: ${money(o.total)}</p>
-          <div class="actions">
-            ${o.status === 'Received' ? `<button class="btn btn-green" onclick="updateOrderStatus('${o.id}','Preparing')">Accept & Prepare</button><button class="btn btn-red" onclick="updateOrderStatus('${o.id}','Cancelled')">Reject</button>` : ''}
-            ${o.status === 'Preparing' ? `<button class="btn btn-blue" onclick="updateOrderStatus('${o.id}','Ready for pickup')">Mark Ready</button>` : ''}
-          </div>
-        </div>`).join('') : '<div class="empty">No orders yet for this vendor.</div>'}
-      `;
-    }
-
-    function saveVendorChoice() {
-      localStorage.activeVendor = document.getElementById('activeVendor').value;
-      renderVendor();
-    }
-
-    function renderRider() {
-      const state = getState();
-      const selectedRider = localStorage.activeRider || state.riders[0].id;
-      const available = state.orders.filter(o => o.status === 'Ready for pickup' && !o.riderId);
-      const mine = state.orders.filter(o => o.riderId === selectedRider && o.status !== 'Delivered' && o.status !== 'Cancelled');
-      document.getElementById('sidebar').innerHTML = `
-        <h3>Rider Portal</h3>
-        <p class="muted">Riders accept assigned deliveries and update delivery status.</p>
-        <label>Rider</label>
-        <select id="activeRider">${state.riders.map(r => `<option value="${r.id}" ${selectedRider === r.id ? 'selected' : ''}>${r.name} · ${r.mode}</option>`).join('')}</select>
-        <button class="btn btn-green" style="width:100%;margin-top:14px" onclick="saveRiderChoice()">View Rider Jobs</button>
-      `;
-      document.getElementById('portalContent').innerHTML = `
-        <h3>My Active Deliveries</h3>
-        ${mine.length ? mine.map(renderRiderOrder).join('') : '<div class="empty">No active deliveries assigned.</div>'}
-        <br><h3>Available Ready Orders</h3>
-        ${available.length ? available.map(o => `<div class="order-item">
-          <div class="row"><strong>${o.id}</strong>${statusBadge(o.status)}</div>
-          <p>${o.items.map(i => `${i.qty} × ${i.name}`).join(', ')}</p>
-          <p class="muted">Pickup: ${vendorName(o.vendorId)} · Drop-off: ${o.deliveryType === 'school' ? schoolName(o.schoolId) : o.deliveryAddress}</p>
-          <button class="btn btn-green" onclick="assignRider('${o.id}','${selectedRider}')">Accept Delivery</button>
-        </div>`).join('') : '<div class="empty">No ready orders waiting for riders.</div>'}
-      `;
-    }
-
-    function renderRiderOrder(o) {
-      return `<div class="order-item">
-        <div class="row"><strong>${o.id}</strong>${statusBadge(o.status)}</div>
-        <p>${o.items.map(i => `${i.qty} × ${i.name}`).join(', ')}</p>
-        <p class="muted">Pickup: ${vendorName(o.vendorId)} · Drop-off: ${o.deliveryType === 'school' ? schoolName(o.schoolId) : o.deliveryAddress}</p>
-        <p>${paymentBadge(o.paymentMethod, o.paymentStatus)} ${o.paymentMethod === 'cash' ? '<span class="badge orange">Collect cash</span>' : ''}</p>
-        <div class="actions">
-          ${o.status === 'Ready for pickup' ? `<button class="btn btn-blue" onclick="updateOrderStatus('${o.id}','Picked up')">Picked Up</button>` : ''}
-          ${o.status === 'Picked up' ? `<button class="btn btn-blue" onclick="updateOrderStatus('${o.id}','Out for delivery')">Out for Delivery</button>` : ''}
-          ${o.status === 'Out for delivery' ? `<button class="btn btn-green" onclick="updateOrderStatus('${o.id}','Delivered')">Mark Delivered</button>` : ''}
-        </div>
-      </div>`;
-    }
-
-    function saveRiderChoice() {
-      localStorage.activeRider = document.getElementById('activeRider').value;
-      renderRider();
-    }
-
-    function renderAdmin() {
-      const state = getState();
-      document.getElementById('sidebar').innerHTML = `
-        <h3>Admin Dashboard</h3>
-        <p class="muted">Manage users, orders, riders, payments, and operational status.</p>
-        <div class="actions">
-          <button class="btn btn-green" onclick="seedDemo()">Load Sample Orders</button>
-          <button class="btn btn-red" onclick="resetDemo()">Reset</button>
-        </div>
-      `;
-      const active = state.orders.filter(o => !['Delivered','Cancelled'].includes(o.status));
-      const cash = state.orders.filter(o => o.paymentMethod === 'cash');
-      document.getElementById('portalContent').innerHTML = `
-        <div class="grid">
-          <div class="card"><h3>Total Orders</h3><p class="total">${state.orders.length}</p></div>
-          <div class="card"><h3>Active Orders</h3><p class="total">${active.length}</p></div>
-          <div class="card"><h3>Cash Orders</h3><p class="total">${cash.length}</p></div>
-        </div><br>
-        <h3>Live Order Board</h3>
-        ${renderOrdersAdmin(state.orders)}
-        <br><h3>Rider Management</h3>
-        <div class="grid">${state.riders.map(r => `<div class="card"><h3>${r.name}</h3><p>${r.mode} · ${r.zone}</p><p>${r.online ? '<span class="badge">Online</span>' : '<span class="badge red">Offline</span>'}</p><button class="btn btn-light" onclick="toggleRider('${r.id}')">Toggle Online</button></div>`).join('')}</div>
-      `;
-    }
-
-    function renderOrdersTable(orders) {
-      if (!orders.length) return '<div class="empty">No orders yet.</div>';
-      return `<table><thead><tr><th>Order</th><th>Items</th><th>Status</th><th>Payment</th><th>Total</th></tr></thead><tbody>${orders.map(o => `<tr><td>${o.id}<br><small>${o.createdAt}</small></td><td>${o.items.map(i => `${i.qty} × ${i.name}`).join('<br>')}</td><td>${statusBadge(o.status)}</td><td>${paymentBadge(o.paymentMethod, o.paymentStatus)}</td><td>${money(o.total)}</td></tr>`).join('')}</tbody></table>`;
-    }
-
-    function renderOrdersAdmin(orders) {
-      if (!orders.length) return '<div class="empty">No orders yet. Place an order from the Parent / Customer portal.</div>';
-      const state = getState();
-      return `<table><thead><tr><th>Order</th><th>Vendor / Delivery</th><th>Status</th><th>Payment</th><th>Assign Rider</th></tr></thead><tbody>${orders.map(o => `<tr>
-        <td><strong>${o.id}</strong><br>${o.items.map(i => `${i.qty} × ${i.name}`).join('<br>')}<br><small>${o.createdAt}</small></td>
-        <td>${vendorName(o.vendorId)}<br><small>${o.deliveryType === 'school' ? schoolName(o.schoolId) : o.deliveryAddress}</small></td>
-        <td>${statusBadge(o.status)}<br><small>Rider: ${riderName(o.riderId)}</small></td>
-        <td>${paymentBadge(o.paymentMethod, o.paymentStatus)}<br><strong>${money(o.total)}</strong></td>
-        <td>
-          <select id="assign-${o.id}">${state.riders.map(r => `<option value="${r.id}" ${o.riderId === r.id ? 'selected' : ''}>${r.name}</option>`).join('')}</select>
-          <button class="btn btn-green" style="margin-top:8px" onclick="assignRiderFromAdmin('${o.id}')">Assign</button>
-          <div class="actions"><button class="btn btn-light" onclick="cycleStatus('${o.id}')">Next Status</button></div>
-        </td>
-      </tr>`).join('')}</tbody></table>`;
-    }
-
-    function updateOrderStatus(orderId, status) {
-      const state = getState();
-      const order = state.orders.find(o => o.id === orderId);
-      if (!order) return;
-      order.status = status;
-      if (status === 'Delivered' && order.paymentMethod === 'cash') order.paymentStatus = 'Cash collected';
-      saveState(state); render();
-    }
-
-    function assignRider(orderId, riderId) {
-      const state = getState();
-      const order = state.orders.find(o => o.id === orderId);
-      if (!order) return;
-      order.riderId = riderId;
-      saveState(state); render();
-    }
-
-    function assignRiderFromAdmin(orderId) {
-      assignRider(orderId, document.getElementById('assign-' + orderId).value);
-    }
-
-    function cycleStatus(orderId) {
-      const state = getState();
-      const order = state.orders.find(o => o.id === orderId);
-      const flow = ['Received','Preparing','Ready for pickup','Picked up','Out for delivery','Delivered'];
-      const next = flow[Math.min(flow.indexOf(order.status) + 1, flow.length - 1)] || 'Received';
-      updateOrderStatus(orderId, next);
-    }
-
-    function toggleRider(riderId) {
-      const state = getState();
-      const rider = state.riders.find(r => r.id === riderId);
-      rider.online = !rider.online;
-      saveState(state); renderAdmin();
-    }
-
-    function seedDemo() {
-      const state = getState();
-      if (!state.orders.length) {
-        state.orders = [
-          { id: 'ORD-1001', customerId: 'c1', vendorId: 'v2', riderId: 'r1', schoolId: 's1', deliveryType: 'school', deliveryAddress: 'Koforidua Central Basic School', items: [{ itemId: 'm3', name: 'School Lunch Pack', price: 22, qty: 12 }], total: 264, paymentMethod: 'momo', paymentStatus: 'Paid demo', status: 'Out for delivery', createdAt: new Date().toLocaleString(), notes: '' },
-          { id: 'ORD-1002', customerId: 'c1', vendorId: 'v1', riderId: null, schoolId: null, deliveryType: 'home', deliveryAddress: 'Koforidua Central', items: [{ itemId: 'm1', name: 'Jollof Rice with Chicken', price: 35, qty: 2 }], total: 70, paymentMethod: 'cash', paymentStatus: 'Collect on delivery', status: 'Ready for pickup', createdAt: new Date().toLocaleString(), notes: '' }
-        ];
-      }
-      saveState(state); render();
-    }
-
-    function resetDemo() {
-      if (!confirm('Reset demo data in this browser?')) return;
-      localStorage.removeItem(STORE_KEY);
-      localStorage.removeItem('activeSchool');
-      localStorage.removeItem('activeVendor');
-      localStorage.removeItem('activeRider');
-      render();
-    }
-
-    function updateStats() {
-      const state = getState();
-      const totalOrders = state.orders.length;
-      const revenue = state.orders.reduce((sum, o) => sum + Number(o.total || 0), 0);
-      const active = state.orders.filter(o => !['Delivered','Cancelled'].includes(o.status)).length;
-      const delivered = state.orders.filter(o => o.status === 'Delivered').length;
-      document.getElementById('statOrders').innerHTML = `${totalOrders}<small>Total orders</small>`;
-      document.getElementById('statRevenue').innerHTML = `${money(revenue)}<small>Total revenue</small>`;
-      document.getElementById('statActive').innerHTML = `${active}<small>Active deliveries</small>`;
-      document.getElementById('statDelivered').innerHTML = `${delivered}<small>Delivered</small>`;
-    }
-
-    render();
-  </script>
 </body>
 </html>
